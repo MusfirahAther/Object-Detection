@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VisDrone Object Detection · YOLO11s</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>🚁 VisDrone Object Detection</h1>
+      <p class="subtitle">YOLO11s · 960 px · 10 classes · VisDrone 2019 Dataset</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Upload card -->
+    <section class="card upload-card" id="uploadCard">
+      <h2>Upload an Image</h2>
+      <p class="hint">Drag & drop or click to select a drone-view image (JPG, PNG, BMP, WEBP)</p>
+
+      <label class="drop-zone" id="dropZone" for="imageInput">
+        <span class="drop-icon">📂</span>
+        <span id="dropLabel">Drop image here</span>
+        <input type="file" id="imageInput" accept="image/*" hidden />
+      </label>
+
+      <!-- Inference parameters -->
+      <div class="params-grid">
+        <label>
+          Confidence threshold
+          <input type="range" id="conf" min="0.01" max="0.99" step="0.01" value="0.25" />
+          <span id="confVal">0.25</span>
+        </label>
+        <label>
+          IoU threshold (NMS)
+          <input type="range" id="iou" min="0.01" max="0.99" step="0.01" value="0.45" />
+          <span id="iouVal">0.45</span>
+        </label>
+        <label>
+          Image size
+          <select id="imgsz">
+            <option value="640">640 px (faster)</option>
+            <option value="960" selected>960 px (trained size)</option>
+            <option value="1280">1280 px (highest detail)</option>
+          </select>
+        </label>
+      </div>
+
+      <button id="predictBtn" class="btn" disabled>Detect Objects</button>
+    </section>
+
+    <!-- Results -->
+    <section class="card results-card hidden" id="resultsCard">
+      <h2>Detection Results</h2>
+
+      <div class="results-layout">
+        <!-- Annotated image -->
+        <div class="image-col">
+          <h3>Annotated Image</h3>
+          <img id="annotatedImg" src="" alt="Annotated detection result" />
+          <a id="downloadLink" class="btn btn-sm" download="detection_result.jpg">Download</a>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-col">
+          <h3>Summary</h3>
+          <div id="statsBox"></div>
+
+          <h3 style="margin-top:1.5rem">All Detections</h3>
+          <div id="detectionList" class="detection-list"></div>
+        </div>
+      </div>
+
+      <button id="resetBtn" class="btn btn-outline" style="margin-top:1.5rem">Try Another Image</button>
+    </section>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+      <div class="spinner"></div>
+      <p>Running YOLO11s inference…</p>
+    </div>
+
+    <!-- Error -->
+    <div class="error-banner hidden" id="errorBanner"></div>
+
+    <!-- Classes reference -->
+    <section class="card classes-card">
+      <h2>Detectable Classes</h2>
+      <div class="classes-grid">
+        {% for name in class_names %}
+        <span class="class-badge">{{ name }}</span>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>YOLO11s fine-tuned on <a href="https://github.com/VisDrone/VisDrone-Dataset" target="_blank">VisDrone 2019 DET</a> &nbsp;|&nbsp; mAP@50: <strong>46.6 %</strong> &nbsp;|&nbsp; mAP@50-95: <strong>27.9 %</strong></p>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

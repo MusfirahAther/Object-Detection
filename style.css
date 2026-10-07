@@ -1,0 +1,229 @@
+/* ── Reset & base ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --accent:    #2563eb;
+  --accent-h:  #1d4ed8;
+  --bg:        #f1f5f9;
+  --surface:   #ffffff;
+  --text:      #1e293b;
+  --muted:     #64748b;
+  --border:    #e2e8f0;
+  --error:     #dc2626;
+  --success:   #16a34a;
+  --radius:    12px;
+  --shadow:    0 2px 12px rgba(0,0,0,.08);
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem; }
+
+/* ── Header ─────────────────────────────────────────────────────────────────── */
+.site-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: #fff;
+  padding: 2rem 0;
+  text-align: center;
+}
+.site-header h1 { font-size: 2rem; font-weight: 700; }
+.subtitle { color: rgba(255,255,255,.8); margin-top: .25rem; font-size: .95rem; }
+
+/* ── Card ───────────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin-top: 1.75rem;
+}
+.card h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text); }
+.card h3 { font-size: 1rem; font-weight: 600; margin-bottom: .75rem; color: var(--muted); }
+
+/* ── Drop zone ──────────────────────────────────────────────────────────────── */
+.hint { color: var(--muted); font-size: .875rem; margin-bottom: 1rem; }
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem 1rem;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  text-align: center;
+  color: var(--muted);
+}
+.drop-zone:hover, .drop-zone.drag-over {
+  border-color: var(--accent);
+  background: #eff6ff;
+  color: var(--accent);
+}
+.drop-icon { font-size: 2.5rem; }
+
+/* ── Params ─────────────────────────────────────────────────────────────────── */
+.params-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+.params-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  font-size: .875rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.params-grid input[type=range] { accent-color: var(--accent); cursor: pointer; }
+.params-grid select {
+  padding: .4rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: .875rem;
+  background: #fff;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-block;
+  padding: .65rem 1.5rem;
+  border-radius: 8px;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  transition: background .2s, opacity .2s;
+}
+.btn:hover:not(:disabled) { background: var(--accent-h); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-sm { font-size: .8rem; padding: .4rem 1rem; margin-top: .75rem; }
+.btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
+.btn-outline:hover { background: var(--accent); color: #fff; }
+
+/* ── Results layout ─────────────────────────────────────────────────────────── */
+.results-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 700px) { .results-layout { grid-template-columns: 1fr; } }
+
+.image-col img {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  display: block;
+}
+
+/* ── Stats box ──────────────────────────────────────────────────────────────── */
+#statsBox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.stat-pill {
+  background: #eff6ff;
+  color: var(--accent);
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  padding: .25rem .8rem;
+  font-size: .825rem;
+  font-weight: 600;
+}
+
+/* ── Detection list ─────────────────────────────────────────────────────────── */
+.detection-list {
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+.det-item {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .4rem .75rem;
+  font-size: .8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.det-item .det-class { font-weight: 600; }
+.det-item .det-conf  { color: var(--success); font-weight: 600; }
+
+/* ── Loading ────────────────────────────────────────────────────────────────── */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  gap: 1rem;
+  z-index: 999;
+}
+.spinner {
+  width: 48px; height: 48px;
+  border: 5px solid rgba(255,255,255,.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Error banner ───────────────────────────────────────────────────────────── */
+.error-banner {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--error);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+  font-size: .9rem;
+}
+
+/* ── Classes grid ───────────────────────────────────────────────────────────── */
+.classes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+.class-badge {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  border-radius: 999px;
+  padding: .3rem .9rem;
+  font-size: .825rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────────────── */
+.site-footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--muted);
+  font-size: .85rem;
+  margin-top: 2rem;
+}
+.site-footer a { color: var(--accent); text-decoration: none; }
+
+/* ── Utility ────────────────────────────────────────────────────────────────── */
+.hidden { display: none !important; }
